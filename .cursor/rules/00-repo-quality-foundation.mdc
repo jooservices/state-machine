@@ -1,0 +1,20 @@
+---
+description: Baseline repository rules for jooservices/state-machine
+globs: ["**/*"]
+alwaysApply: true
+---
+
+Follow [AGENTS.md](AGENTS.md) as the repository-wide policy.
+
+Focus on:
+
+- minimal repository-consistent changes
+- stopping to ask when requirements are unclear, conflicting, missing, or impossible based on real code
+- repository-native code style and conventions
+- architecture principles and compatibility-safe decisions
+- understanding class and module ownership before editing
+- Laravel application flow: Request -> Controller -> FormRequest -> Service -> Repository -> Model
+- Service-owned business logic, transactions, and event dispatch
+- tests and docs shipped with behavior changes
+- hook and CI awareness
+- respect for current runtime gaps and compatibility constraints

@@ -1,0 +1,42 @@
+includes:
+    - vendor/phpstan/phpstan-strict-rules/rules.neon
+    - vendor/phpstan/phpstan-phpunit/extension.neon
+
+parameters:
+    level: max
+    paths:
+        - src
+        - tests
+    treatPhpDocTypesAsCertain: false
+    reportUnmatchedIgnoredErrors: true
+    checkMissingCallableSignature: true
+    checkUninitializedProperties: true
+    checkDynamicProperties: true
+    polluteScopeWithLoopInitialAssignments: false
+    polluteScopeWithAlwaysIterableForeach: false
+    checkExplicitMixedMissingReturn: true
+    checkFunctionNameCase: true
+    checkInternalClassCaseSensitivity: true
+    reportMaybesInMethodSignatures: true
+    reportStaticMethodSignatures: true
+    reportMaybesInPropertyPhpDocTypes: true
+    reportWrongPhpDocTypeInVarTag: true
+    exceptions:
+        implicitThrows: false
+        check:
+            missingCheckedExceptionInThrows: false
+            tooWideThrowType: false
+    ignoreErrors:
+        - '#Dynamic call to static method PHPUnit\\Framework\\Assert::#'
+        -
+            message: '#will always evaluate to true#'
+            paths:
+                - tests/*
+        -
+            message: '#Cannot access offset .* on mixed#'
+            paths:
+                - tests/*
+        -
+            # Fixture intentionally leaves typed property uninitialized.
+            message: '#Class JOOservices\\StateMachine\\Tests\\Fixtures\\UninitializedStatusSubject has an uninitialized property \$status#'
+            path: tests/Fixtures/UninitializedStatusSubject.php

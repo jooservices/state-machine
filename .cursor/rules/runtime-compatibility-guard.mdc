@@ -1,0 +1,16 @@
+---
+description: Guard runtime compatibility and unsupported-feature drift
+globs: ["src/**/*.php", "docs/**/*.md", "README.md", "tests/**/*.php"]
+alwaysApply: false
+---
+
+Use `.github/skills/runtime-compatibility-guard/SKILL.md`.
+
+Do not overstate support for partially wired runtime features.
+
+## State Machine runtime truth
+
+- Guard and callback class strings use `new $class()` with no built-in container resolution.
+- The event dispatcher is optional at construction time (optional PSR-14 wiring).
+- Accessors may no-op or return null for missing properties/methods; do not invent richer behavior.
+- Document only wired runtime behavior; stop and ask when repository truth is missing.

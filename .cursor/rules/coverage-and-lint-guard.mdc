@@ -1,0 +1,17 @@
+---
+description: Apply coverage, lint, and static-analysis policy for code changes
+globs: ["src/**/*.php", "tests/**/*.php", "composer.json", "php*.xml", "phpstan*.neon", "pint.json", ".php-cs-fixer.dist.php"]
+alwaysApply: false
+---
+
+Use `.github/skills/coverage-and-lint-guard/SKILL.md`.
+
+When code changes are involved:
+
+- think through Pint, PHPCS, PHPStan, PHPMD, and PHP-CS-Fixer implications
+- add tests that protect behavior and coverage
+- keep Pint as the formatting authority when tools conflict
+- keep PHPCS structural only and PHPStan at max or the strictest feasible level
+- avoid new PHPStan `ignoreErrors` and PHPMD global exclusions unless they are narrow, justified, and reported in final WHAT/WHY/HOW notes
+- fix real checker failures in code instead of suppressing them
+- remember that CI enforces the 95% minimum statement coverage standard

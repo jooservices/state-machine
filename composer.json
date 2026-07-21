@@ -1,0 +1,104 @@
+{
+    "name": "jooservices/state-machine",
+    "description": "A PHP 8.5+ configuration-driven finite state machine for any PHP object",
+    "type": "library",
+    "license": "MIT",
+    "keywords": [
+        "state-machine",
+        "finite-state-machine",
+        "fsm",
+        "workflow",
+        "transitions",
+        "states",
+        "guards"
+    ],
+    "authors": [
+        {
+            "name": "JOOservices",
+            "email": "admin@jooservices.com"
+        }
+    ],
+    "support": {
+        "issues": "https://github.com/jooservices/state-machine/issues",
+        "source": "https://github.com/jooservices/state-machine"
+    },
+    "require": {
+        "php": ">=8.5",
+        "psr/event-dispatcher": "^1.0"
+    },
+    "require-dev": {
+        "captainhook/captainhook": "^5.23",
+        "captainhook/plugin-composer": "^5.3",
+        "fakerphp/faker": "^1.24",
+        "friendsofphp/php-cs-fixer": "^3.65",
+        "laravel/pint": "^1.18",
+        "phpbench/phpbench": "^1.6",
+        "phpmd/phpmd": "^2.15",
+        "phpstan/phpstan": "^2.0",
+        "phpstan/phpstan-phpunit": "^2.0",
+        "phpstan/phpstan-strict-rules": "^2.0",
+        "phpunit/phpunit": "^12.0 || ^13.0",
+        "squizlabs/php_codesniffer": "^3.8 || ^4.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "JOOservices\\StateMachine\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "JOOservices\\StateMachine\\Tests\\": "tests/"
+        }
+    },
+    "scripts": {
+        "test": "phpunit",
+        "test:coverage": "phpunit --coverage-html coverage --coverage-clover coverage.xml",
+        "bench": "phpbench run --report=default",
+        "bench:quick": "phpbench run --report=default --revs=100 --iterations=3",
+        "bench:baseline": "php -r \"is_dir('build/phpbench') || mkdir('build/phpbench', 0777, true);\" && phpbench run --report=default --dump-file=build/phpbench/baseline.xml",
+        "bench:compare": "php -r \"is_dir('build/phpbench') || mkdir('build/phpbench', 0777, true);\" && phpbench run --report=default --dump-file=build/phpbench/current.xml && phpbench report --report=default --file=build/phpbench/baseline.xml --file=build/phpbench/current.xml",
+        "instructions:verify": "php tools/verify-ai-instructions-sync.php",
+        "lint:pint": "pint --test",
+        "lint:pint:fix": "pint",
+        "lint:cs": "php-cs-fixer fix --config=.php-cs-fixer.dist.php --dry-run --diff --sequential",
+        "lint:cs:fix": "php-cs-fixer fix --config=.php-cs-fixer.dist.php --sequential",
+        "lint:phpcs": "phpcs --standard=phpcs.xml",
+        "lint:phpstan": "XDEBUG_MODE=off phpstan analyse --configuration=phpstan.neon --memory-limit=512M --debug",
+        "lint:phpmd": "php -d error_reporting=6143 vendor/bin/phpmd src text phpmd.xml",
+        "lint:fast": [
+            "@lint:pint",
+            "@lint:phpcs",
+            "@lint:phpstan"
+        ],
+        "lint": [
+            "@lint:fast",
+            "@lint:phpmd",
+            "@lint:cs"
+        ],
+        "lint:all": [
+            "@lint"
+        ],
+        "lint:fix": [
+            "@lint:pint:fix",
+            "@lint:cs:fix"
+        ],
+        "check": [
+            "@lint:all",
+            "@test"
+        ],
+        "ci": [
+            "@lint:all",
+            "@test:coverage"
+        ],
+        "post-install-cmd": "captainhook install --force --skip-existing",
+        "post-update-cmd": "captainhook install --force --skip-existing"
+    },
+    "config": {
+        "sort-packages": true,
+        "allow-plugins": {
+            "captainhook/plugin-composer": true
+        }
+    },
+    "minimum-stability": "stable",
+    "prefer-stable": true
+}
