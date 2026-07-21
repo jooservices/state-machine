@@ -10,6 +10,8 @@ The **JOOservices State Machine** is a PHP 8.5+ configuration-driven finite stat
 
 Package name: `jooservices/state-machine`
 
+Latest stable release: `v1.0.0`
+
 ## Install
 
 ```bash
