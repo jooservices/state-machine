@@ -23,7 +23,7 @@
         "source": "https://github.com/jooservices/state-machine"
     },
     "require": {
-        "php": ">=8.5",
+        "php": "^8.5",
         "psr/event-dispatcher": "^1.0"
     },
     "require-dev": {
@@ -57,7 +57,6 @@
         "bench:quick": "phpbench run --report=default --revs=100 --iterations=3",
         "bench:baseline": "php -r \"is_dir('build/phpbench') || mkdir('build/phpbench', 0777, true);\" && phpbench run --report=default --dump-file=build/phpbench/baseline.xml",
         "bench:compare": "php -r \"is_dir('build/phpbench') || mkdir('build/phpbench', 0777, true);\" && phpbench run --report=default --dump-file=build/phpbench/current.xml && phpbench report --report=default --file=build/phpbench/baseline.xml --file=build/phpbench/current.xml",
-        "instructions:verify": "php tools/verify-ai-instructions-sync.php",
         "lint:pint": "pint --test",
         "lint:pint:fix": "pint",
         "lint:cs": "php-cs-fixer fix --config=.php-cs-fixer.dist.php --dry-run --diff --sequential",

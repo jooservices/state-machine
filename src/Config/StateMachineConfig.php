@@ -105,7 +105,7 @@ readonly class StateMachineConfig
      */
     private static function requireString(string $graphName, array $config, string $key): string
     {
-        if (! isset($config[$key]) || ! is_string($config[$key])) {
+        if (! isset($config[$key]) || ! is_string($config[$key]) || $config[$key] === '') {
             throw InvalidConfigurationException::missingKey($graphName, $key);
         }
 
@@ -124,8 +124,15 @@ readonly class StateMachineConfig
             throw InvalidConfigurationException::missingKey($graphName, $key);
         }
 
-        /** @var list<string> $values */
-        $values = array_values($config[$key]);
+        $values = [];
+
+        foreach ($config[$key] as $value) {
+            if (! is_string($value) || $value === '') {
+                throw InvalidConfigurationException::missingKey($graphName, $key);
+            }
+
+            $values[] = $value;
+        }
 
         return $values;
     }

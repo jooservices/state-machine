@@ -3,15 +3,37 @@
 All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
-and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
+and this project adheres to [Semantic Versioning](https://semver.org/v2.0.0.html).
 
 ## [Unreleased]
+
+### Added
+
+- `StateAccessException` for fail-loud state writes
+- Config-time validation that guard/callback class-strings exist and implement their contracts
+- Docker tooling (`Dockerfile`, `docker-compose.yml`, `Makefile`)
+- Root docs: `SUPPORT.md`, `GOVERNANCE.md`, `WORKFLOWS.md`
+- Commitlint workflow + `CODEOWNERS` + final `CI Gate` job
+
+### Changed
+
+- Public line target **`v4.0.0`** (not tagged yet) — no compatibility with retired `v1.x`
+- PHP constraint `^8.5`
+- `StateMachine`, `StateMachineFactory`, and accessors are `final`
+- `apply()` order: `TransitionStarting` → before callbacks → write → after callbacks → `TransitionCompleted`
+- `TransitionFailed` fires for any throwable after starting (before/write/after)
+- Accessors throw on missing write targets instead of silent no-op
+
+### Removed
+
+- Nested AI adapter trees (`.claude`, `.cursor`, `ai/`, `antigravity`, `CLAUDE.md`, `jetbrains`) from the package repo
+- Runtime silent skip of missing callback classes
 
 ## [1.0.0] - 2026-07-20
 
 ### Added
 
-- Initial stable release of `jooservices/state-machine`
+- Initial stable release of `jooservices/state-machine` (retired line; superseded by v4)
 - Configuration-driven finite state machine engine (`StateMachine`, `StateMachineFactory`)
 - Immutable config value objects (`StateMachineConfig`, `TransitionConfig`) with eager validation
 - Pluggable state accessors (`PropertyAccessor`, `GetterSetterAccessor`)
@@ -20,5 +42,3 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Domain exceptions for invalid configuration, invalid transitions, and guard rejection
 - Multi-graph support via separate machine instances on one subject
 - Test suite (unit + integration), PHPBench harness, and 95% statement coverage gate
-- DTO-aligned quality tooling: Pint, PHPCS, PHPStan, PHPMD, PHP-CS-Fixer, CaptainHook, gitleaks
-- AI agent instructions, skills, prompts, CI workflows, and documentation hub

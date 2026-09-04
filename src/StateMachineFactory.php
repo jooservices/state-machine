@@ -16,7 +16,7 @@ use Psr\EventDispatcher\EventDispatcherInterface;
  * Provides a convenient API for creating state machines without
  * manually constructing config objects.
  */
-class StateMachineFactory
+final class StateMachineFactory
 {
     public function __construct(
         private readonly StateAccessorInterface $defaultAccessor = new PropertyAccessor,

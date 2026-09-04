@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace JOOservices\StateMachine\Tests\Unit\Accessors;
 
 use JOOservices\StateMachine\Accessors\GetterSetterAccessor;
+use JOOservices\StateMachine\Exceptions\StateAccessException;
 use JOOservices\StateMachine\Tests\Fixtures\EncapsulatedOrder;
 use JOOservices\StateMachine\Tests\TestCase;
 use PHPUnit\Framework\Attributes\Test;
@@ -37,15 +38,15 @@ final class GetterSetterAccessorTest extends TestCase
     }
 
     #[Test]
-    public function it_ignores_set_when_no_setter_exists(): void
+    public function it_rejects_set_when_no_setter_exists(): void
     {
         $subject = new EncapsulatedOrder('pending');
         $accessor = new GetterSetterAccessor;
 
-        // property name with no matching setter
-        $accessor->setState($subject, 'missing', 'confirmed');
+        $this->expectException(StateAccessException::class);
+        $this->expectExceptionMessage('no setter');
 
-        $this->assertSame('pending', $subject->getStatus());
+        $accessor->setState($subject, 'missing', 'confirmed');
     }
 
     #[Test]

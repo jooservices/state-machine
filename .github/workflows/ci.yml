@@ -58,8 +58,6 @@ jobs:
             command: lint:phpmd
           - name: PHP-CS-Fixer
             command: lint:cs
-          - name: AI Instructions
-            command: instructions:verify
     steps:
       - name: Checkout code
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
@@ -179,3 +177,15 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           SONAR_TOKEN: ${{ env.SONAR_TOKEN }}
+
+  ci-gate:
+    name: CI Gate
+    runs-on: ubuntu-latest
+    needs: [security, lint, tests]
+    if: always()
+    steps:
+      - name: Require upstream jobs
+        run: |
+          test "${{ needs.security.result }}" = "success"
+          test "${{ needs.lint.result }}" = "success"
+          test "${{ needs.tests.result }}" = "success"

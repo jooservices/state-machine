@@ -5,13 +5,13 @@ declare(strict_types=1);
 namespace JOOservices\StateMachine\Accessors;
 
 use JOOservices\StateMachine\Contracts\StateAccessorInterface;
+use JOOservices\StateMachine\Exceptions\StateAccessException;
 use ReflectionObject;
-use RuntimeException;
 
 /**
  * Reads and writes state via public or promoted properties using reflection.
  */
-class PropertyAccessor implements StateAccessorInterface
+final class PropertyAccessor implements StateAccessorInterface
 {
     public function getState(object $subject, string $property): ?string
     {
@@ -37,19 +37,13 @@ class PropertyAccessor implements StateAccessorInterface
         $reflection = new ReflectionObject($subject);
 
         if (! $reflection->hasProperty($property)) {
-            return;
+            throw StateAccessException::missingProperty($subject, $property);
         }
 
         $prop = $reflection->getProperty($property);
 
         if ($prop->isReadOnly() && $prop->isInitialized($subject)) {
-            throw new RuntimeException(
-                sprintf(
-                    'Cannot write state to readonly property "%s" on %s after initialization. Use a mutable property or GetterSetterAccessor with a setter.',
-                    $property,
-                    $subject::class,
-                ),
-            );
+            throw StateAccessException::readonlyProperty($subject, $property);
         }
 
         $prop->setValue($subject, $state);
