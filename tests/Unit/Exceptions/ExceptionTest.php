@@ -6,8 +6,10 @@ namespace JOOservices\StateMachine\Tests\Unit\Exceptions;
 
 use JOOservices\StateMachine\Exceptions\InvalidConfigurationException;
 use JOOservices\StateMachine\Exceptions\InvalidTransitionException;
+use JOOservices\StateMachine\Exceptions\StateAccessException;
 use JOOservices\StateMachine\Exceptions\StateMachineException;
 use JOOservices\StateMachine\Exceptions\TransitionGuardException;
+use JOOservices\StateMachine\Tests\Fixtures\OrderDto;
 use JOOservices\StateMachine\Tests\TestCase;
 use PHPUnit\Framework\Attributes\Test;
 
@@ -27,6 +29,10 @@ final class ExceptionTest extends TestCase
         $this->assertInstanceOf(
             StateMachineException::class,
             TransitionGuardException::rejected('confirm', 'App\\Guards\\PaidGuard'),
+        );
+        $this->assertInstanceOf(
+            StateMachineException::class,
+            StateAccessException::missingProperty(new OrderDto, 'missing'),
         );
     }
 

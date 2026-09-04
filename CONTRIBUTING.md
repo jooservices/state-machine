@@ -2,7 +2,7 @@
 
 Contributions to `jooservices/state-machine` should keep the **JOOservices State Machine** aligned with its existing package architecture, repository quality gates, and contributor guidance.
 
-For development details that go deeper than this file, see [docs/04-development/07-contributing.md](./docs/04-development/07-contributing.md), [AGENTS.md](./AGENTS.md), and [CLAUDE.md](./CLAUDE.md).
+For development details that go deeper than this file, see [docs/04-development/07-contributing.md](./docs/04-development/07-contributing.md) and [AGENTS.md](./AGENTS.md).
 
 ## Git workflow summary
 

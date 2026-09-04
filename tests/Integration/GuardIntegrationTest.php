@@ -47,18 +47,14 @@ final class GuardIntegrationTest extends TestCase
     }
 
     #[Test]
-    public function missing_guard_class_is_treated_as_rejection(): void
+    public function missing_guard_class_fails_at_config_time(): void
     {
         $config = $this->orderGraphConfig();
         $config['transitions']['confirm']['guards'] = ['App\\DoesNotExist\\Guard'];
 
-        $order = new OrderDto;
-        $machine = (new StateMachineFactory)->create($order, 'order', $config);
+        $this->expectException(\JOOservices\StateMachine\Exceptions\InvalidConfigurationException::class);
+        $this->expectExceptionMessage('Invalid class reference');
 
-        $this->assertFalse($machine->can('confirm'));
-
-        $this->expectException(TransitionGuardException::class);
-
-        $machine->apply('confirm');
+        (new StateMachineFactory)->create(new OrderDto, 'order', $config);
     }
 }

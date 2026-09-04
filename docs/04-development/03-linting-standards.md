@@ -9,7 +9,6 @@ composer lint:all      # alias for lint
 composer lint:fix      # Pint fix + PHP-CS-Fixer fix
 composer check         # lint:all + test
 composer ci            # lint:all + test:coverage
-composer instructions:verify
 composer lint:pint
 composer lint:pint:fix
 composer lint:phpcs
@@ -95,7 +94,6 @@ The CI workflow runs the non-mutating lint commands as separate matrix jobs:
 - `lint:phpstan`
 - `lint:phpmd`
 - `lint:cs`
-- `instructions:verify`
 
 ## Related documents
 

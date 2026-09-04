@@ -7,9 +7,7 @@ namespace JOOservices\StateMachine\Events;
 use JOOservices\StateMachine\TransitionContext;
 
 /**
- * Dispatched before a transition is applied.
- *
- * At this point guards have passed and the state is about to change.
+ * Dispatched after guards pass and before before-callbacks / state write.
  */
 readonly class TransitionStarting
 {

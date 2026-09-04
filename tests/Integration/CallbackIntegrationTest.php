@@ -40,7 +40,7 @@ final class CallbackIntegrationTest extends TestCase
     }
 
     #[Test]
-    public function missing_callback_class_is_skipped(): void
+    public function missing_callback_class_fails_at_config_time(): void
     {
         $config = $this->orderGraphConfig();
         $config['transitions']['confirm']['callbacks'] = [
@@ -48,12 +48,9 @@ final class CallbackIntegrationTest extends TestCase
             'after' => [LogCallback::class],
         ];
 
-        $order = new OrderDto;
-        $machine = (new StateMachineFactory)->create($order, 'order', $config);
+        $this->expectException(\JOOservices\StateMachine\Exceptions\InvalidConfigurationException::class);
+        $this->expectExceptionMessage('Invalid class reference');
 
-        $machine->apply('confirm');
-
-        $this->assertCount(1, LogCallback::$log);
-        $this->assertSame('confirmed', $order->status);
+        (new StateMachineFactory)->create(new OrderDto, 'order', $config);
     }
 }

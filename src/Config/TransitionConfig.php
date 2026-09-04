@@ -44,11 +44,11 @@ readonly class TransitionConfig
         $to = self::requireString($name, $config, 'to');
 
         /** @var list<class-string<GuardInterface>> $guards */
-        $guards = self::optionalClassList($config, 'guards');
+        $guards = self::optionalClassList($name, $config, 'guards', GuardInterface::class);
         /** @var list<class-string<CallbackInterface>> $beforeCallbacks */
-        $beforeCallbacks = self::optionalNestedClassList($config, 'callbacks', 'before');
+        $beforeCallbacks = self::optionalNestedClassList($name, $config, 'callbacks', 'before', CallbackInterface::class);
         /** @var list<class-string<CallbackInterface>> $afterCallbacks */
-        $afterCallbacks = self::optionalNestedClassList($config, 'callbacks', 'after');
+        $afterCallbacks = self::optionalNestedClassList($name, $config, 'callbacks', 'after', CallbackInterface::class);
 
         return new self(
             from: $from,
@@ -66,7 +66,7 @@ readonly class TransitionConfig
      */
     private static function requireString(string $name, array $config, string $key): string
     {
-        if (! isset($config[$key]) || ! is_string($config[$key])) {
+        if (! isset($config[$key]) || ! is_string($config[$key]) || $config[$key] === '') {
             throw InvalidConfigurationException::missingKey($name, $key);
         }
 
@@ -81,38 +81,68 @@ readonly class TransitionConfig
      */
     private static function requireStringList(string $name, array $config, string $key): array
     {
-        if (! isset($config[$key]) || ! is_array($config[$key])) {
+        if (! isset($config[$key]) || ! is_array($config[$key]) || $config[$key] === []) {
             throw InvalidConfigurationException::missingKey($name, $key);
         }
 
-        /** @var list<string> $values */
-        $values = array_values($config[$key]);
+        $values = [];
+
+        foreach ($config[$key] as $value) {
+            if (! is_string($value) || $value === '') {
+                throw InvalidConfigurationException::missingKey($name, $key);
+            }
+
+            $values[] = $value;
+        }
 
         return $values;
     }
 
     /**
      * @param  array<string, mixed>  $config
+     * @param  class-string  $interface
      * @return list<class-string>
+     *
+     * @throws InvalidConfigurationException
      */
-    private static function optionalClassList(array $config, string $key): array
+    private static function optionalClassList(string $name, array $config, string $key, string $interface): array
     {
         if (! isset($config[$key]) || ! is_array($config[$key])) {
             return [];
         }
 
-        /** @var list<class-string> $values */
-        $values = array_values($config[$key]);
+        $values = [];
+
+        foreach ($config[$key] as $class) {
+            if (! is_string($class) || $class === '') {
+                $invalid = is_scalar($class) ? (string) $class : get_debug_type($class);
+                throw InvalidConfigurationException::invalidClassReference($name, $key, $invalid, $interface);
+            }
+
+            if (! class_exists($class) || ! is_a($class, $interface, true)) {
+                throw InvalidConfigurationException::invalidClassReference($name, $key, $class, $interface);
+            }
+
+            $values[] = $class;
+        }
 
         return $values;
     }
 
     /**
      * @param  array<string, mixed>  $config
+     * @param  class-string  $interface
      * @return list<class-string>
+     *
+     * @throws InvalidConfigurationException
      */
-    private static function optionalNestedClassList(array $config, string $parentKey, string $childKey): array
-    {
+    private static function optionalNestedClassList(
+        string $name,
+        array $config,
+        string $parentKey,
+        string $childKey,
+        string $interface,
+    ): array {
         if (! isset($config[$parentKey]) || ! is_array($config[$parentKey])) {
             return [];
         }
@@ -123,8 +153,21 @@ readonly class TransitionConfig
             return [];
         }
 
-        /** @var list<class-string> $values */
-        $values = array_values($parent[$childKey]);
+        $path = $parentKey.'.'.$childKey;
+        $values = [];
+
+        foreach ($parent[$childKey] as $class) {
+            if (! is_string($class) || $class === '') {
+                $invalid = is_scalar($class) ? (string) $class : get_debug_type($class);
+                throw InvalidConfigurationException::invalidClassReference($name, $path, $invalid, $interface);
+            }
+
+            if (! class_exists($class) || ! is_a($class, $interface, true)) {
+                throw InvalidConfigurationException::invalidClassReference($name, $path, $class, $interface);
+            }
+
+            $values[] = $class;
+        }
 
         return $values;
     }

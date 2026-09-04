@@ -67,4 +67,17 @@ final class TransitionConfigTest extends TestCase
             'from' => ['pending'],
         ]);
     }
+
+    #[Test]
+    public function it_rejects_unknown_guard_class(): void
+    {
+        $this->expectException(InvalidConfigurationException::class);
+        $this->expectExceptionMessage('Invalid class reference');
+
+        TransitionConfig::fromArray('confirm', [
+            'from' => ['pending'],
+            'to' => 'confirmed',
+            'guards' => ['App\\DoesNotExist\\Guard'],
+        ]);
+    }
 }

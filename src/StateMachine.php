@@ -24,7 +24,7 @@ use Throwable;
  * Applies configuration-driven transitions to a subject object using
  * a pluggable state accessor. Supports guards, callbacks, and PSR-14 events.
  */
-class StateMachine implements StateMachineInterface
+final class StateMachine implements StateMachineInterface
 {
     public function __construct(
         private readonly object $subject,
@@ -81,19 +81,17 @@ class StateMachine implements StateMachineInterface
 
         $this->executeGuardsOrFail($transitionConfig, $context);
 
-        $this->executeCallbacks($transitionConfig->beforeCallbacks, $context);
-
         $this->dispatchEvent(new TransitionStarting($context));
 
         try {
+            $this->executeCallbacks($transitionConfig->beforeCallbacks, $context);
             $this->accessor->setState($this->subject, $this->config->property, $transitionConfig->to);
+            $this->executeCallbacks($transitionConfig->afterCallbacks, $context);
         } catch (Throwable $exception) {
             $this->dispatchEvent(new TransitionFailed($context, $exception));
 
             throw $exception;
         }
-
-        $this->executeCallbacks($transitionConfig->afterCallbacks, $context);
 
         $this->dispatchEvent(new TransitionCompleted($context));
     }
@@ -163,10 +161,6 @@ class StateMachine implements StateMachineInterface
     private function checkGuards(TransitionConfig $transitionConfig, TransitionContext $context): bool
     {
         foreach ($transitionConfig->guards as $guardClass) {
-            if (! class_exists($guardClass)) {
-                return false;
-            }
-
             /** @var GuardInterface $guard */
             $guard = new $guardClass;
 
@@ -186,10 +180,6 @@ class StateMachine implements StateMachineInterface
     private function executeGuardsOrFail(TransitionConfig $transitionConfig, TransitionContext $context): void
     {
         foreach ($transitionConfig->guards as $guardClass) {
-            if (! class_exists($guardClass)) {
-                throw TransitionGuardException::rejected($context->transition, $guardClass);
-            }
-
             /** @var GuardInterface $guard */
             $guard = new $guardClass;
 
@@ -207,10 +197,6 @@ class StateMachine implements StateMachineInterface
     private function executeCallbacks(array $callbackClasses, TransitionContext $context): void
     {
         foreach ($callbackClasses as $callbackClass) {
-            if (! class_exists($callbackClass)) {
-                continue;
-            }
-
             /** @var CallbackInterface $callback */
             $callback = new $callbackClass;
             $callback->execute($context);

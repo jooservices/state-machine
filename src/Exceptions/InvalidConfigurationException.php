@@ -56,4 +56,24 @@ class InvalidConfigurationException extends StateMachineException
             ),
         );
     }
+
+    /**
+     * @param  class-string  $interface
+     */
+    public static function invalidClassReference(
+        string $graphName,
+        string $key,
+        string $class,
+        string $interface,
+    ): self {
+        return new self(
+            sprintf(
+                'Invalid class reference "%s" for key "%s" in graph "%s"; expected a concrete class implementing %s.',
+                $class,
+                $key,
+                $graphName,
+                $interface,
+            ),
+        );
+    }
 }

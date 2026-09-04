@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace JOOservices\StateMachine\Accessors;
 
 use JOOservices\StateMachine\Contracts\StateAccessorInterface;
+use JOOservices\StateMachine\Exceptions\StateAccessException;
 
 /**
  * Reads and writes state via conventional getter/setter methods.
@@ -13,7 +14,7 @@ use JOOservices\StateMachine\Contracts\StateAccessorInterface;
  * - `getStatus()` or `status()` for reading
  * - `setStatus($value)` for writing
  */
-class GetterSetterAccessor implements StateAccessorInterface
+final class GetterSetterAccessor implements StateAccessorInterface
 {
     public function getState(object $subject, string $property): ?string
     {
@@ -38,9 +39,11 @@ class GetterSetterAccessor implements StateAccessorInterface
     {
         $setter = 'set'.ucfirst($property);
 
-        if (method_exists($subject, $setter)) {
-            $this->invokeSubjectMethod($subject, $setter, [$state]);
+        if (! method_exists($subject, $setter)) {
+            throw StateAccessException::missingSetter($subject, $property);
         }
+
+        $this->invokeSubjectMethod($subject, $setter, [$state]);
     }
 
     /**

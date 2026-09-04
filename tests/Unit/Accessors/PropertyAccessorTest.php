@@ -5,11 +5,11 @@ declare(strict_types=1);
 namespace JOOservices\StateMachine\Tests\Unit\Accessors;
 
 use JOOservices\StateMachine\Accessors\PropertyAccessor;
+use JOOservices\StateMachine\Exceptions\StateAccessException;
 use JOOservices\StateMachine\Tests\Fixtures\OrderDto;
 use JOOservices\StateMachine\Tests\Fixtures\UninitializedStatusSubject;
 use JOOservices\StateMachine\Tests\TestCase;
 use PHPUnit\Framework\Attributes\Test;
-use RuntimeException;
 
 final class PropertyAccessorTest extends TestCase
 {
@@ -37,14 +37,15 @@ final class PropertyAccessorTest extends TestCase
     }
 
     #[Test]
-    public function it_ignores_set_for_missing_property(): void
+    public function it_rejects_set_for_missing_property(): void
     {
         $subject = new OrderDto(status: 'pending');
         $accessor = new PropertyAccessor;
 
-        $accessor->setState($subject, 'missing', 'confirmed');
+        $this->expectException(StateAccessException::class);
+        $this->expectExceptionMessage('does not exist');
 
-        $this->assertSame('pending', $subject->status);
+        $accessor->setState($subject, 'missing', 'confirmed');
     }
 
     #[Test]
@@ -65,7 +66,7 @@ final class PropertyAccessorTest extends TestCase
         };
         $accessor = new PropertyAccessor;
 
-        $this->expectException(RuntimeException::class);
+        $this->expectException(StateAccessException::class);
         $this->expectExceptionMessage('readonly property');
 
         $accessor->setState($subject, 'status', 'confirmed');
