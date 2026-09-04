@@ -29,7 +29,7 @@ Also on PRs: **Commitlint**, **Semantic PR Title**, **PR Labeler**, **Dependency
 | `scorecard.yml` | OpenSSF Scorecard |
 | `secret-scanning.yml` | Extra secret scan job (GitHub native Secret Scanning is also on) |
 | `codacy.yml` / `fortify.yml` | Optional vendor scans when secrets exist |
-| `release.yml` | Tag `v*.*.*` → GitHub Release (**do not run until owner approves v4.0.0**) |
+| `release.yml` | Tag `v*.*.*` → validate → GitHub Release → Packagist update |
 
 ## Runtime truth
 
