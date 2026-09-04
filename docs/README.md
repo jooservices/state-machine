@@ -42,7 +42,6 @@ Documentation hub for `jooservices/state-machine`.
 - [CI/CD](./04-development/05-ci-cd.md)
 - [Release Process](./04-development/06-release-process.md)
 - [Contributing](./04-development/07-contributing.md)
-- [AI Skills](./04-development/08-ai-skills.md)
 
 ## Maintenance
 

@@ -53,7 +53,6 @@ The repository uses one reusable config file per quality tool. Tools must not be
 | `composer lint` | `composer lint:fast`, PHPMD, and PHP-CS-Fixer dry run |
 | `composer lint:all` | Alias for `composer lint` |
 | `composer lint:fix` | Pint fixer and PHP-CS-Fixer |
-| `composer instructions:verify` | AI instruction sync checks |
 | `composer test` | PHPUnit |
 | `composer test:coverage` | PHPUnit with HTML and Clover coverage reports |
 | `composer bench` | Default phpbench benchmark run |

@@ -4,21 +4,20 @@
 [![OpenSSF Scorecard](https://api.securityscorecards.dev/projects/github.com/jooservices/state-machine/badge)](https://securityscorecards.dev/viewer/?uri=github.com/jooservices/state-machine)
 [![PHP Version](https://img.shields.io/badge/PHP-8.5%2B-blue.svg)](https://www.php.net/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
-[![Version](https://img.shields.io/badge/version-4.0.0%20(unreleased)-orange.svg)](CHANGELOG.md)
+[![Release](https://img.shields.io/badge/version-4.0.0-blue.svg)](CHANGELOG.md)
+[![Packagist Version](https://img.shields.io/packagist/v/jooservices/state-machine)](https://packagist.org/packages/jooservices/state-machine)
 
 The **JOOservices State Machine** is a PHP 8.5+ configuration-driven finite state machine for any PHP object — DTOs, POPOs, or framework models. Zero framework coupling. State is a string property on the subject.
 
 Package name: `jooservices/state-machine`
 
-Next public line: **`v4.0.0` (unreleased)** — no backward compatibility with the retired `v1.x` archive.
+Latest stable release: **`v4.0.0`** — no backward compatibility with the retired `v1.x` archive.
 
 ## Install
 
 ```bash
-composer require jooservices/state-machine:^4.0@dev
+composer require jooservices/state-machine:^4.0
 ```
-
-> Until `v4.0.0` is tagged, require a `dev-develop` / path repository. Do not publish or tag without owner approval.
 ## Quick example
 
 ```php
@@ -114,7 +113,7 @@ Approved Git flow summary:
 
 - normal feature and fix work branches from `develop` and PRs back into `develop`
 - release preparation uses `release/<version>` from `develop`, then PRs into `master`
-- releases are tagged from `master` (**`v4.0.0` not tagged yet**)
+- releases are tagged from `master`
 - `master` merges back into `develop` after release or hotfix completion
 
 ## Community

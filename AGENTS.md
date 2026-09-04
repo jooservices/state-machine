@@ -3,9 +3,9 @@
 This file adds project-only rules.
 
 - PHP `^8.5`; runtime: `psr/event-dispatcher ^1.0` only — zero framework coupling
-- First public line: **`v4.0.0`** (not released yet) — no backward compatibility with the retired `v1.x` line
-- All PHP tooling via Docker (`php:8.5-cli-bookworm`, image `jooservices/state-machine:php85`)
-- CI on GitHub-hosted `ubuntu-latest`
+- First public line: **`v4.0.0`** — no backward compatibility with the retired `v1.x` line
+- Local PHP tooling via Docker (`php:8.5-cli-bookworm`, image `jooservices/state-machine:php85`) or host PHP 8.5
+- CI on GitHub-hosted `ubuntu-latest` via `shivammathur/setup-php`
 - Lints at **max** with **no ignore**: Pint `per`, PHPCS, PHPStan max + strict rules, PHPMD, PHP-CS-Fixer
 - Coverage floor **95%** statement coverage
 - Guards/callbacks are class-strings validated at config time (`new $class()` — no container)
