@@ -26,7 +26,7 @@ Also on PRs: **Commitlint**, **Semantic PR Title**, **PR Labeler**, **Dependency
 | `semantic-pr.yml` | Conventional PR title |
 | `commitlint.yml` | Conventional commit messages on the PR |
 | `pr-labeler.yml` | Path-based labels |
-| `scorecard.yml` | OpenSSF Scorecard |
+| `scorecard.yml` | Push to `develop`; Monday 00:00 UTC; manual | OpenSSF Scorecard |
 | `secret-scanning.yml` | Extra secret scan job (GitHub native Secret Scanning is also on) |
 | `codacy.yml` / `fortify.yml` | Optional vendor scans when secrets exist |
 | `release.yml` | Tag `v*.*.*` → validate → GitHub Release → Packagist update |

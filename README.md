@@ -1,11 +1,14 @@
-# JOOservices State Machine
+# jooservices/state-machine
 
 [![CI](https://github.com/jooservices/state-machine/actions/workflows/ci.yml/badge.svg?branch=develop)](https://github.com/jooservices/state-machine/actions/workflows/ci.yml)
+[![Coverage (develop)](https://codecov.io/gh/jooservices/state-machine/branch/develop/graph/badge.svg)](https://codecov.io/gh/jooservices/state-machine/branch/develop)
+[![Quality Gate (master)](https://sonarcloud.io/api/project_badges/measure?project=jooservices_state-machine&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=jooservices_state-machine)
 [![OpenSSF Scorecard](https://api.securityscorecards.dev/projects/github.com/jooservices/state-machine/badge)](https://securityscorecards.dev/viewer/?uri=github.com/jooservices/state-machine)
 [![PHP Version](https://img.shields.io/badge/PHP-8.5%2B-blue.svg)](https://www.php.net/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
-[![Release](https://img.shields.io/badge/version-4.0.0-blue.svg)](CHANGELOG.md)
+[![GitHub Release](https://img.shields.io/github/v/release/jooservices/state-machine?display_name=tag)](https://github.com/jooservices/state-machine/releases)
 [![Packagist Version](https://img.shields.io/packagist/v/jooservices/state-machine)](https://packagist.org/packages/jooservices/state-machine)
+[![Total Downloads](https://img.shields.io/packagist/dt/jooservices/state-machine)](https://packagist.org/packages/jooservices/state-machine)
 
 The **JOOservices State Machine** is a PHP 8.5+ configuration-driven finite state machine for any PHP object — DTOs, POPOs, or framework models. Zero framework coupling. State is a string property on the subject.
 
