@@ -5,23 +5,37 @@
 [![Quality Gate (master)](https://sonarcloud.io/api/project_badges/measure?project=jooservices_state-machine&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=jooservices_state-machine)
 [![OpenSSF Scorecard](https://api.securityscorecards.dev/projects/github.com/jooservices/state-machine/badge)](https://securityscorecards.dev/viewer/?uri=github.com/jooservices/state-machine)
 [![PHP Version](https://img.shields.io/badge/PHP-8.5%2B-blue.svg)](https://www.php.net/)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 [![GitHub Release](https://img.shields.io/github/v/release/jooservices/state-machine?display_name=tag)](https://github.com/jooservices/state-machine/releases)
 [![Packagist Version](https://img.shields.io/packagist/v/jooservices/state-machine)](https://packagist.org/packages/jooservices/state-machine)
 [![Total Downloads](https://img.shields.io/packagist/dt/jooservices/state-machine)](https://packagist.org/packages/jooservices/state-machine)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
-The **JOOservices State Machine** is a PHP 8.5+ configuration-driven finite state machine for any PHP object — DTOs, POPOs, or framework models. Zero framework coupling. State is a string property on the subject.
-
-Package name: `jooservices/state-machine`
+The **JOOservices State Machine** is a PHP `^8.5` configuration-driven finite state machine for any PHP object — DTOs, POPOs, or framework models. Zero framework coupling. State is a string property on the subject.
 
 Latest stable release: **`v4.0.0`** — no backward compatibility with the retired `v1.x` archive.
 
-## Install
+## Features
+
+- configuration-driven graphs validated at construction time
+- `can()` / `apply()` / `getAvailableTransitions()`
+- pluggable state accessors (property reflection or getter/setter)
+- guards and before/after callbacks as class strings
+- optional PSR-14 lifecycle events
+- multiple independent graphs per subject (separate machine instances)
+- pure PHP `^8.5` with no Laravel/Symfony runtime requirement
+
+## Requirements
+
+- PHP `^8.5`
+- Composer 2.x
+
+## Installation
 
 ```bash
 composer require jooservices/state-machine:^4.0
 ```
-## Quick example
+
+## Quick start
 
 ```php
 use JOOservices\StateMachine\StateMachineFactory;
@@ -54,17 +68,7 @@ if ($machine->can('confirm')) {
 echo $machine->getState(); // confirmed
 ```
 
-## What is supported today
-
-- configuration-driven graphs validated at construction time
-- `can()` / `apply()` / `getAvailableTransitions()`
-- pluggable state accessors (property reflection or getter/setter)
-- guards and before/after callbacks as class strings
-- optional PSR-14 lifecycle events
-- multiple independent graphs per subject (separate machine instances)
-- pure PHP 8.5+ with no Laravel/Symfony runtime requirement
-
-## Important current limitations
+## Design notes
 
 - guards and callbacks are constructed with `new $class()` (no container resolution)
 - guard/callback class-strings are validated at config construction (must exist and implement the contract)
@@ -88,6 +92,7 @@ Start with:
 ## Development
 
 ```bash
+make validate
 make install
 make lint
 make test
@@ -97,6 +102,7 @@ make ci
 Or with Composer inside Docker / host PHP 8.5:
 
 ```bash
+composer validate --strict
 composer lint
 composer lint:all
 composer test
@@ -112,12 +118,8 @@ Contributor workflow details live in:
 - [CI/CD](./docs/04-development/05-ci-cd.md)
 - [Release Process](./docs/04-development/06-release-process.md)
 
-Approved Git flow summary:
-
-- normal feature and fix work branches from `develop` and PRs back into `develop`
-- release preparation uses `release/<version>` from `develop`, then PRs into `master`
-- releases are tagged from `master`
-- `master` merges back into `develop` after release or hotfix completion
+Branch, release, CI, and integration details are documented in
+[WORKFLOWS.md](./WORKFLOWS.md) and the linked development guides.
 
 ## Community
 
@@ -125,15 +127,7 @@ Approved Git flow summary:
 - [Security Policy](./SECURITY.md)
 - [Code of Conduct](./CODE_OF_CONDUCT.md)
 - [Support](./SUPPORT.md)
-
-## GitHub Actions and Services
-
-See [WORKFLOWS.md](./WORKFLOWS.md). Current coverage:
-
-- `CI` + `CI Gate`: security, lint matrix, tests, 95% coverage
-- `Commitlint` + `Semantic PR Title`
-- `Release` (tag-driven — do not use until owner approves `v4.0.0`)
-- OpenSSF Scorecard / optional Codacy / Fortify when secrets exist
+- [Governance](./GOVERNANCE.md)
 
 ## License
 
